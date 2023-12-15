@@ -1,0 +1,10 @@
+version: "3"
+services:
+  tutorial:
+    build:
+      context: .
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - .:/app
+    command: "python3 main.py"
