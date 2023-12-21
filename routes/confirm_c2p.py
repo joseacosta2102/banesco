@@ -1,16 +1,16 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
-from services.auth_c2p import auth_c2p_tesoro
-from libs.schemas.auth_c2p import AuthC2pModel
+from services.confirm_c2p import confirm_c2p_tesoro
+from libs.schemas.confirm_c2p import ConfirmC2pModel
 from settings import get_enviroment_client
 
 
 router = APIRouter()
 
 
-@router.post("/pay/auth")
-async def auth_mobile_payment(payment: AuthC2pModel, req: Request):
-    client = get_enviroment_client(payment.enterprise_name)
+@router.post("/pay/confirm")
+async def confirm_mobile_payment(register_data: ConfirmC2pModel, req: Request):
+    client = get_enviroment_client(register_data.enterprise_name)
 
     invalid_client = not client or client["API_KEY"] != req.headers.get("x-api-key")
 
@@ -25,11 +25,11 @@ async def auth_mobile_payment(payment: AuthC2pModel, req: Request):
             },
         )
 
-    pay = auth_c2p_tesoro(payment)
+    confirm = confirm_c2p_tesoro(register_data)
 
-    can_error = bool(pay["error"])
+    can_error = bool(confirm["error"])
 
     if can_error:
-        return JSONResponse(status_code=502, content=pay)
+        return JSONResponse(status_code=502, content=confirm)
 
-    return pay
+    return confirm

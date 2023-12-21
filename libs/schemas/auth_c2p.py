@@ -2,6 +2,5 @@ from pydantic import BaseModel
 
 
 class AuthC2pModel(BaseModel):
-    username: str
-    password: str
+    dni: str
     enterprise_name: str

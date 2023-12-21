@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
-from services.pay_c2p import pay_c2p_tesoro
-from libs.schemas.pay_c2p import PayC2pModel
+from services.banks import get_banks_service
+from libs.schemas.banks import BanksModel
 from settings import get_enviroment_client
 
 
 router = APIRouter()
 
 
-@router.post("/pay")
-async def create_mobile_payment(payment: PayC2pModel, req: Request):
+@router.get("/banks")
+async def get_banks(payment: BanksModel, req: Request):
     client = get_enviroment_client(payment.enterprise_name)
 
     invalid_client = not client or client["API_KEY"] != req.headers.get("x-api-key")
@@ -22,16 +22,9 @@ async def create_mobile_payment(payment: PayC2pModel, req: Request):
                     "error": {
                         "message": "API KEY invalida o cliente no registrado",
                         "code": "0418",
-                    }
+                    },
                 }
             ),
         )
 
-    pay = pay_c2p_tesoro(payment)
-
-    can_error = bool(pay["error"])
-
-    if can_error:
-        return JSONResponse(status_code=502, content=pay)
-
-    return pay_c2p_tesoro(payment)
+    return get_banks_service()

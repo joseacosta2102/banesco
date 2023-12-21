@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 
-class RegisterC2pModel(BaseModel):
+class BanksModel(BaseModel):
     enterprise_name: str

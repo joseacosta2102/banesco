@@ -4,14 +4,17 @@ from settings import (
 )
 
 
-def request_register_c2p_object(find_object: dict) -> dict:
+def request_confirm_c2p_object(find_object: dict) -> dict:
     client = get_enviroment_client(find_object["enterprise_name"])
 
     return {
-        "username": client["PHONE"],
-        "password": client["PASSWORD"],
-        "ctaOri": client["ACCOUNT"],
-        "tlfOri": client["PHONE"],
+        "referencia": find_object["reference"],
+        "monto": find_object["amount"],
+        "celular": find_object["phone"],
+        "banco": find_object["bank"],
+        "fecha": find_object["date"],
+        "codAfiliado": client["CODE"],
+        "RIF": client["VAT"],
     }
 
 
@@ -19,27 +22,18 @@ def request_pay_c2p_object(pay_object: dict) -> dict:
     client = get_enviroment_client(pay_object["enterprise_name"])
 
     return {
-        "idAliado": pay_object["partner_id"],
-        "idPost": pay_object["post_id"],
-        "ctaDeb": client["ACCOUNT"],
-        "idEmpresa": client["VAT"],
-        "tlfDeb": client["PHONE"],
-        "idCliente": pay_object["client_vat"],
+        "canal": "06",
+        "cedular": pay_object["phone"],
+        "banco": pay_object["bank"],
+        "cedula": pay_object["dni"],
         "monto": pay_object["amount"],
-        "telefono": pay_object["client_phone"],
-        "cod_banco": pay_object["auth_bank_code"],
+        "token": pay_object["token"],
+        "concepto": pay_object["concept"],
+        "RIF": client["VAT"],
+        "codAfiliado": client["CODE"],
+        "comercio": "",
     }
 
 
 def request_auth_c2p_object(pay_object: dict) -> dict:
-    client = get_enviroment_client(pay_object["enterprise_name"])
-
-    is_valid_auth_fields = (
-        client["PASSWORD"] == pay_object["password"]
-        and client["username"] == pay_object["username"]
-    )
-
-    if not is_valid_auth_fields:
-        return {"De Error": "datos de autenticacion invalidos"}
-
-    return {"username": pay_object["username"], "password": pay_object["password"]}
+    return {"canal": "01", "celularDestino": pay_object["dni"]}
