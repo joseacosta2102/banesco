@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="banesco.js"></script>
+</head>
+<body>
+    <script>
+        const boton = Banesco_open_win("https://qa-botondepago.banescopagos.com/",
+            "V10271776",
+            145454544536.36,
+            "01",
+            "S0001",
+            "test",
+            "GJVVT2d7OVtWmk12ajpueneXxVv7vfe6",
+            "fc81d56a24a72ef347b063f7853bffd153d87dbf7aa0bd6e26d07fee1fdcb329",
+            1
+        );
+
+        document.write(boton)
+    </script>
+
+    <style>
+        div {
+            width: 250px;
+            height: 50px;
+            background-color: red;
+        }
+    </style>
+    <div></div>
+</body>
+</html>

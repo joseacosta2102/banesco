@@ -2,10 +2,8 @@ from pydantic import BaseModel
 
 
 class PayC2pModel(BaseModel):
+    vat: str
     amount: float
-    phone: str
-    dni: str
-    bank: str
-    token: str
-    enterprise_name: str
+    transaction: str
     concept: str
+    enterprise_name: str

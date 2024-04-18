@@ -1,14 +1,18 @@
-from pyxios import Pyxios
-from settings import BASE_URL_TESORO
-
-tesoro = Pyxios(BASE_URL_TESORO, timeout=5)
+from settings import URL_BANESCO_PAY, URL_BANESCO_CONFIRM_PAY
+from requests import request
 
 
-def post_request(route: str, data: dict):
-    fetch = tesoro.post(url=route, json=data)
-    is_not_found = fetch.status_code == 404
+def pay_request(data: dict):
+    return request(
+        method="POST",
+        url=URL_BANESCO_PAY,
+        data=data,
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        timeout=8,
+    )
 
-    if is_not_found:
-        return {"mensaje": "RECURSO NO ENCONTRADO", "usuario": None, "status": "Error"}
 
-    return tesoro.post(url=route, json=data).json()
+def confirm_requests(data: dict):
+    return request(method="POST", url=URL_BANESCO_CONFIRM_PAY, data=data, timeout=8)

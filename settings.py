@@ -8,7 +8,8 @@ load_dotenv()
 PORT = int(os.getenv("PORT"))
 DEV = bool(os.getenv("DEV"))
 HOST = str(os.getenv("HOST"))
-BASE_URL_TESORO = str(os.getenv("BASE_URL_TESORO"))
+URL_BANESCO_PAY = str(os.getenv("URL_BANESCO_PAY"))
+URL_BANESCO_CONFIRM_PAY = str(os.getenv("URL_BANESCO_CONFIRM_PAY"))
 
 
 def get_enviroment_client(client: str) -> dict:
